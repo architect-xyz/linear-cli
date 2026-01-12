@@ -1,4 +1,5 @@
 .aider.*
 .config/linear.toml
+.linear.toml
 
 src/__codegen__/

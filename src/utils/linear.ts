@@ -360,6 +360,7 @@ export async function fetchIssuesForState(
   unassigned = false,
   allAssignees = false,
   limit?: number,
+  projectId?: string,
 ) {
   const sort = getOption("issue_sort") as "manual" | "priority" | undefined
   if (!sort) {
@@ -375,6 +376,10 @@ export async function fetchIssuesForState(
 
   if (state) {
     filter.state = { type: { in: state } }
+  }
+
+  if (projectId) {
+    filter.project = { id: { eq: projectId } }
   }
 
   if (unassigned) {
