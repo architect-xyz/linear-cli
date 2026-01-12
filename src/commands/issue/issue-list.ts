@@ -8,7 +8,11 @@ import {
   padDisplay,
   truncateText,
 } from "../../utils/display.ts"
-import { fetchIssuesForState, getTeamKey } from "../../utils/linear.ts"
+import {
+  fetchIssuesForState,
+  getTeamKey,
+  resolveProjectId,
+} from "../../utils/linear.ts"
 import { openTeamAssigneeView } from "../../utils/actions.ts"
 import { pipeToUserPager, shouldUsePager } from "../../utils/pager.ts"
 import { header, muted } from "../../utils/styling.ts"
@@ -64,6 +68,10 @@ export const listCommand = new Command()
     "Team to list issues for (if not your default team)",
   )
   .option(
+    "--project <project:string>",
+    "Filter by project (slug or UUID)",
+  )
+  .option(
     "--limit <limit:number>",
     "Maximum number of issues to fetch (default: 50, use 0 for unlimited)",
     {
@@ -85,6 +93,7 @@ export const listCommand = new Command()
         app,
         allStates,
         team,
+        project,
         limit,
         pager,
       },
@@ -141,6 +150,7 @@ export const listCommand = new Command()
       spinner?.start()
 
       try {
+        const projectId = project ? await resolveProjectId(project) : undefined
         const result = await fetchIssuesForState(
           teamKey,
           allStates ? undefined : stateArray,
@@ -148,6 +158,7 @@ export const listCommand = new Command()
           unassigned,
           allAssignees,
           limit === 0 ? undefined : limit,
+          projectId,
         )
         spinner?.stop()
         const issues = result.issues?.nodes || []
