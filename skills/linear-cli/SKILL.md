@@ -24,7 +24,7 @@ https://github.com/schpet/linear-cli?tab=readme-ov-file#install
 ```
 linear issue      # Manage issues (list, view, create, start, update, delete, comment)
 linear team       # Manage teams (list, members, create, autolinks)
-linear project    # Manage projects (list, view)
+linear project    # Manage projects and project issues (issues, list, view)
 linear config     # Configure the CLI for the current repo
 linear auth       # Manage authentication (token, whoami)
 linear schema     # Print the GraphQL schema (SDL or JSON)
